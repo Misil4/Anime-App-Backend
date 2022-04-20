@@ -11,7 +11,7 @@ export const getAnimeEpisodes = async (req, res) => {
         const data = await axios.get(url);
         const $ = cheerio.load(data.data);
         let episodes = [];
-        const test = $('.row.jpage.row-cols-md-6').find('.col-item').each((index, value) => episodes.push(value.children[1].attribs))
+        const test = $('.row.jpage.row-cols-md-6').find('.col-item').each((index, value) => episodes.push({enlace : value.children[1].attribs.href,imagen:value.children[1].children[1].children[1].children[1].attribs['data-src']}))
         res.send(episodes)
     } catch (error) {
         res.send(error)
@@ -20,13 +20,12 @@ export const getAnimeEpisodes = async (req, res) => {
 export const getAnimeLink = async (req, res) => {
     const anime = req.params.anime
     const episode = req.params.ep
-    const url = `${urls.watchUrl}${anime}-episodio-${episode}`
+    const url = `${urls.watchUrl}${anime}/${episode}`
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(url);
-    const animeUrl = await page.$$eval('iframe', el => [].map.call(el, d => d.src));
-    await browser.close();
-
-    const _url = animeUrl[0];
-    res.send(_url)
+    const elementHandle = await page.$('.player_conte')
+    const frame = await elementHandle.contentFrame();
+    const video = frame.url()
+    res.send(video);
 }
