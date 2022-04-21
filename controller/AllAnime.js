@@ -23,7 +23,7 @@ export const getAnimeLink = async (req, res) => {
     const anime = req.params.anime
     const episode = req.params.ep
     const url = `${urls.watchUrl}${anime}/${episode}`
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
     const page = await browser.newPage();
     await page.goto(url);
     const elementHandle = await page.$('.player_conte')
