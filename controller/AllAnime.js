@@ -6,13 +6,13 @@ const downloadPath = path.resolve('./download');
 
 export const getAnimeEpisodes = async (req, res) => {
     try {
-        const anime = req.params.anime
+        const anime = "sword-art-online"
         const sub = "-sub-espanol"
         const url = `${urls.animeUrl}${anime}${sub}/`;
         const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
         const page = await browser.newPage();
         await page.goto(url);
-        const results = [];
+        const episodes = [];
         const data = await page.evaluate(() => document.querySelector('*').outerHTML);
         const $ = cheerio.load(data)
         const test = $('.row.jpage.row-cols-md-6').find('.col-item').each((index, value) => episodes.push({ enlace: value.children[1].attribs.href, imagen: value.children[1].children[1].children[1].children[1].attribs['data-src'] }))
