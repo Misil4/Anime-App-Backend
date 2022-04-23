@@ -31,7 +31,6 @@ export const getAnimeLink = async (req, res) => {
     const elementHandle = await page.$('.player_conte')
     const frame = await elementHandle.contentFrame();
     const video = frame.url()
-    await browser.close()
     res.send(video);
 }
 
