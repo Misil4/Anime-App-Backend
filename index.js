@@ -1,11 +1,9 @@
 import Express from "express";
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
+import http from 'http'
 import dotenv from 'dotenv'
 dotenv.config()
 import router from "./routes/routes.js";
 const app = Express();
-const http = require('http')
 const server = http.createServer(app)
 const port = process.env.PORT || 3002;
 server.listen(port, () => {
