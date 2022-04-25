@@ -22,7 +22,6 @@ export const getAnimeEpisodes = async (req, res) => {
             await browser.close()
        res.send(episodes)
 }
-getAnimeEpisodes().then()
 export const getAnimeLink = async (req, res) => {
     const anime = req.params.anime
     const episode = req.params.ep
