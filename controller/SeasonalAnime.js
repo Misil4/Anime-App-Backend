@@ -1,9 +1,13 @@
 
 import puppeteer from "puppeteer";
-import cheerio from "cheerio";
+import chromium from "chrome-aws-lambda";
 import { urls } from "../assets/urls.js";
 export const getlatestAnimeAdded = async (req, res) => {
-  const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
+  const browser = await puppeteer.launch({args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
+  defaultViewport: chromium.defaultViewport,
+  executablePath: await chromium.executablePath,
+  headless: true,
+  ignoreHTTPSErrors: true, });
   const page = await browser.newPage();
   await page.goto(urls.url);
   let anilist = []

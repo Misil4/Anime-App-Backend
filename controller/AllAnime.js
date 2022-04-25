@@ -1,5 +1,5 @@
 import cheerio from "cheerio";
-import puppeteer from "puppeteer";
+import chromium from "chrome-aws-lambda";
 import path from 'path'
 import { urls } from "../assets/urls.js";
 const downloadPath = path.resolve('./download');
@@ -8,7 +8,11 @@ export const getAnimeEpisodes = async (req, res) => {
     try {
         const anime = req.params.anime
         const url = `${urls.animeUrl}${anime}`;
-        const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
+        const browser = await chromium.puppeteer.launch({args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
+        defaultViewport: chromium.defaultViewport,
+        executablePath: await chromium.executablePath,
+        headless: true,
+        ignoreHTTPSErrors: true, });
         const page = await browser.newPage();
         await page.goto(url);
         const episodes = [];
@@ -24,7 +28,11 @@ export const getAnimeLink = async (req, res) => {
     const anime = req.params.anime
     const episode = req.params.ep
     const url = `${urls.watchUrl}${anime}/${episode}`
-    const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
+    const browser = await chromium.puppeteer.launch({args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
+        defaultViewport: chromium.defaultViewport,
+        executablePath: await chromium.executablePath,
+        headless: true,
+        ignoreHTTPSErrors: true, });
     const page = await browser.newPage();
     await page.goto(url);
     const elementHandle = await page.$('.player_conte')

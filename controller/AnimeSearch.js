@@ -1,11 +1,15 @@
-import puppeteer from "puppeteer";
+import chromium from 'chrome-aws-lambda';
 import cheerio from 'cheerio'
 import { urls } from "../assets/urls.js";
 
 export const searchAnime = async (req,res) => {
     const searchKey = req.params.anime;
     const url = `${urls.searchUrl}${searchKey}/1`;
-    const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
+    const browser = await chromium.puppeteer.launch({args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
+    defaultViewport: chromium.defaultViewport,
+    executablePath: await chromium.executablePath,
+    headless: true,
+    ignoreHTTPSErrors: true, });
     const page = await browser.newPage();
     await page.goto(url);
     const results = [];
