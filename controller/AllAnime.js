@@ -5,8 +5,7 @@ import { urls } from "../assets/urls.js";
 const downloadPath = path.resolve('./download');
 
 export const getAnimeEpisodes = async (req, res) => {
-    try {
-        const anime = req.params.anime
+        const anime = "sword-art-online"
         const url = `${urls.animeUrl}${anime}`;
         const browser = await chromium.puppeteer.launch({args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
         defaultViewport: chromium.defaultViewport,
@@ -18,12 +17,9 @@ export const getAnimeEpisodes = async (req, res) => {
         const episodes = [];
         const data = await page.evaluate(() => document.querySelector('*').outerHTML);
         const $ = cheerio.load(data)
-        const test = $('#episodes-content').find('.anime__item').each((index, value) => episodes.push({ enlace: value.children[0].attribs.href, imagen: value.children[0].children[0].attribs['data-setbg'] }))
+        const test = $('#episodes-content').find('.anime__item').each((index, value) => value)
         await browser.close()
-       res.send(episodes)
-    } catch (error) {
-        res.send(error)
-    }
+       res.send({text :test[0].children[0].attribs.href})
 }
 export const getAnimeLink = async (req, res) => {
     const anime = req.params.anime
