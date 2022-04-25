@@ -2,6 +2,7 @@
 import puppeteer from "puppeteer";
 import chromium from "chrome-aws-lambda";
 import { urls } from "../assets/urls.js";
+import cheerio from "cheerio";
 export const getlatestAnimeAdded = async (req, res) => {
   const browser = await puppeteer.launch({args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
   defaultViewport: chromium.defaultViewport,
