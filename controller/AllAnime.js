@@ -21,7 +21,7 @@ export const getAnimeEpisodes = async (req, res) => {
         const $ = cheerio.load(data)
         const test = $('#episodes-content').find('.anime__item').each((index, value) => episodes.push({ enlace: value.children[0].attribs.href, imagen: value.children[0].children[0].attribs['data-setbg'] }))
             await browser.close()
-       res.send(episodes)
+       res.send(data)
     } catch (error) {
         res.send(error)
     }
