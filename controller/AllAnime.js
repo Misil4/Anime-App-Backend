@@ -5,48 +5,36 @@ import { urls } from "../assets/urls.js";
 const downloadPath = path.resolve('./download');
 
 export const getAnimeEpisodes = async (req, res) => {
-    const anime = "sword-art-online"
-    const url = `${urls.animeUrl}${anime}`;
-    const browser = await chromium.puppeteer.launch({
-        args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
+    try {
+        const anime = req.params.anime
+        const url = `${urls.animeUrl}${anime}`;
+        const browser = await chromium.puppeteer.launch({args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
         defaultViewport: chromium.defaultViewport,
         executablePath: await chromium.executablePath,
         headless: true,
-        ignoreHTTPSErrors: true,
-    });
-    const page = await browser.newPage();
-    await page.goto(url);
-    const episodes = [];
-    const episode = await page.$$('.anime__item');
-    for (const episodeHandle of episode) {
-        const single = await page.evaluate(el => el.getAttribute('href'), episodeHandle)
-        if (single !== null) {
-            episodes.push(single)
-        }
+        ignoreHTTPSErrors: true, });
+        const page = await browser.newPage();
+        await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36');
+        await page.goto(url);
+        const episodes = [];
+        const data = await page.evaluate(() => document.querySelector('*').outerHTML);
+        const $ = cheerio.load(data)
+        const test = $('#episodes-content').find('.anime__item').each((index, value) => episodes.push({ enlace: value.children[0].attribs.href, imagen: value.children[0].children[0].attribs['data-setbg'] }))
+            await browser.close()
+       res.send(episodes)
+    } catch (error) {
+        res.send(error)
     }
-    if (episodes.length<13) {
-     await page.click('.numbers')
-     for (const episodeHandle of episode) {
-        const single = await page.evaluate(el => el.getAttribute('href'), episodeHandle)
-        if (single !== null) {
-            episodes.push(single)
-        }
-    }   
-    }
-    res.send(episodes)
-    await browser.close()
 }
 export const getAnimeLink = async (req, res) => {
     const anime = req.params.anime
     const episode = req.params.ep
     const url = `${urls.watchUrl}${anime}/${episode}`
-    const browser = await chromium.puppeteer.launch({
-        args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
+    const browser = await chromium.puppeteer.launch({args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
         defaultViewport: chromium.defaultViewport,
         executablePath: await chromium.executablePath,
         headless: true,
-        ignoreHTTPSErrors: true,
-    });
+        ignoreHTTPSErrors: true, });
     const page = await browser.newPage();
     await page.goto(url);
     const elementHandle = await page.$('.player_conte')
