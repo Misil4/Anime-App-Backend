@@ -49,7 +49,7 @@ export const getDowloadLink = async (req, res) => {
     const anime = req.params.anime
     const episode = req.params.ep
     const url = `${urls.downloadUrl}${anime}-episodio-${episode}`
-    const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
+    const browser = await chromium.puppeteer.launch({ args: ['--no-sandbox'] });
     const page = await browser.newPage();
     await page.goto(url);
     const results = [];
