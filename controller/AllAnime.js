@@ -37,6 +37,7 @@ export const getAnimeLink = async (req, res) => {
         ignoreHTTPSErrors: true,
     });
     const page = await browser.newPage();
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36');
     await page.goto(url);
     const elementHandle = await page.$('.player_conte')
     const frame = await elementHandle.contentFrame();
@@ -49,8 +50,15 @@ export const getDowloadLink = async (req, res) => {
     const anime = req.params.anime
     const episode = req.params.ep
     const url = `${urls.downloadUrl}${anime}-episodio-${episode}`
-    const browser = await chromium.puppeteer.launch({ args: ['--no-sandbox'] });
+    const browser = await chromium.puppeteer.launch({
+        args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
+        defaultViewport: chromium.defaultViewport,
+        executablePath: await chromium.executablePath,
+        headless: true,
+        ignoreHTTPSErrors: true,
+    });
     const page = await browser.newPage();
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36');
     await page.goto(url);
     const results = [];
     const data = await page.evaluate(() => document.querySelector('*').outerHTML);
