@@ -6,7 +6,8 @@ const downloadPath = path.resolve('./download');
 
 export const getAnimeEpisodes = async (req, res) => {
     const anime = req.params.anime
-    const url = `${urls.animeUrl}${anime}`;
+    const sub = "sub-espanol"
+    const url = `${urls.animeUrl}${anime}-${sub}`;
     const browser = await chromium.puppeteer.launch({
         args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
         defaultViewport: chromium.defaultViewport,
@@ -20,7 +21,7 @@ export const getAnimeEpisodes = async (req, res) => {
     const episodes = [];
     const data = await page.evaluate(() => document.querySelector('*').outerHTML);
     const $ = cheerio.load(data)
-    const test = $('.ListCaps').find('.fa-play-circle').each((index, value) => episodes.push({ enlace: value.children[0].attribs.href, imagen: value.children[0].children[0].children[0].attribs['data-src'] }))
+     const test = $('.allanimes').find('.col-item').each((index, value) => episodes.push({ enlace: value.children[1].attribs.href, imagen: value.children[1].children[1].children[1].children[1].attribs.src }))
     await browser.close()
     res.send(episodes)
 }
