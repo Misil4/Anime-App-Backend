@@ -19,11 +19,13 @@ export const getAnimeEpisodes = async (req, res) => {
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36');
     await page.goto(url);
     const episodes = [];
+    // let info = {}
     const data = await page.evaluate(() => document.querySelector('*').outerHTML);
     const $ = cheerio.load(data)
-     const test = $('.allanimes').find('.col-item').each((index, value) => episodes.push({ enlace: value.children[1].attribs.href, imagen: value.children[1].children[1].children[1].children[1].attribs.src }))
+     const info = {score : $('.col-lg-12.col-md-9').find('.chapterpic')['0'].children[3].children[0].data,portada : $('.heroarea').find('.heromain')['0'].children[1].children[0].attribs.src,estado : $(".butns").find("#btninfo")['0'].children[0].data,descripcion : $(".chapterdetails").find(".textComplete")['0'].children[0].data}
+    const test = $('.allanimes').find('.col-item').each((index, value) => episodes.push({ enlace: value.children[1].attribs.href, imagen: value.children[1].children[1].children[1].children[1].attribs.src }))
     await browser.close()
-    res.send(episodes)
+    res.send({info,episodes})
 }
 export const getAnimeLink = async (req, res) => {
     const anime = req.params.anime
