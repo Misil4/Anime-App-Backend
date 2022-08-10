@@ -2,7 +2,6 @@ import cheerio from "cheerio";
 import chromium from "chrome-aws-lambda";
 import path from 'path'
 import { urls } from "../assets/urls.js";
-const downloadPath = path.resolve('./download');
 
 export const getAnimeEpisodes = async (req, res) => {
     const anime = req.params.anime
