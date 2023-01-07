@@ -4,7 +4,7 @@ import chromium from "chrome-aws-lambda";
 import { urls } from "../assets/urls.js";
 import cheerio from "cheerio";
 export const getlatestAnimeAdded = async (req, res) => {
-  const browser = await chromium.puppeteer.launch({args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
+  const browser = await chromium.puppeteer.launch({args: [...chromium.args, "--hide-scrollbars", "--disable-web-security --proxy-server=23.26.236.11:3128"],
     defaultViewport: chromium.defaultViewport,
     executablePath: await chromium.executablePath,
     headless: true,
@@ -12,6 +12,7 @@ export const getlatestAnimeAdded = async (req, res) => {
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36');
     await page.goto(urls.url);
+    await page.wa
   let anilist = []
   const data = await page.evaluate(() => document.querySelector('*').outerHTML);
   console.log(data)
