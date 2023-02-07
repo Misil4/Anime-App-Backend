@@ -15,9 +15,9 @@ export const getlatestAnimeAdded = async (req, res) => {
     await page.waitForSelector(".maximoaltura")
   let anilist = []
   const data = await page.evaluate(() => document.querySelector('*').outerHTML);
-  console.log(data)
   const $ = cheerio.load(data)
-  const test = $('.maximoaltura').find('.bloqq').each((index, value) => anilist.push({ image: value.children[0].children[1].children[1].attribs.src, name: value.children[0].children[3].children[1].children[0].data, episode: parseInt(value.children[0].children[3].children[3].children[0].data.substring(136, 137)), url: value.attribs.href }))
+  console.log($('.maximoaltura').find('.bloqq')[1].children[0].children[3].children[3].children[0].data.replace(/\D/g, ""))
+  const test = $('.maximoaltura').find('.bloqq').each((index, value) => anilist.push({ image: value.children[0].children[1].children[1].attribs.src, name: value.children[0].children[3].children[1].children[0].data, episode: parseInt(value.children[0].children[3].children[3].children[0].data.replace(/\D/g, "")), url: value.attribs.href }))
   await browser.close()
   res.send(anilist)
 };

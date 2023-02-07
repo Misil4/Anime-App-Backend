@@ -64,7 +64,7 @@ export const getDowloadLink = async (req, res) => {
     const results = [];
     const data = await page.evaluate(() => document.querySelector('*').outerHTML);
     const $ = cheerio.load(data)
-    const test = $('.downbtns')['0'].children[1].attribs.href;
+    const test = $('.downbtns')['0'].children.find(item => item.attribs?.href.includes("mega")) ? $('.downbtns')['0'].children.find(item => item.attribs?.href.includes("mega")).attribs.href  : "0"
     await browser.close()
     res.send(test)
 }
