@@ -1,9 +1,9 @@
 import db from "../database/database.js";
-import {getAllUsers,createNewUser} from "../models/usersModel.js";
+import {getAllUsers,createNewUser, getUser} from "../models/usersModel.js";
 
 const getUsers = (req,res,next) => {
     var params = []
-    db.run(getAllUsers(),params ,(err, rows) => {
+    db.all(getAllUsers(),params ,(err, rows) => {
         if (err) {
           res.status(400).json({"error":err.message});
           return;
@@ -17,7 +17,7 @@ const getUsers = (req,res,next) => {
 const createUser = (req,res,next) => {
 
   var params = []
-  db.run(createNewUser(req.body),params ,(err, rows) => {
+  db.all(createNewUser(req.body),params ,(err, rows) => {
     if (err) {
       res.status(400).json({"error":err.message});
       return;
@@ -30,4 +30,20 @@ const createUser = (req,res,next) => {
   });
 }
 
-    export {getUsers,createUser}
+const getLoginUser = (req,res,next) => {
+
+  var params = []
+  db.all(getUser(req.body),params ,(err, rows) => {
+    if (err) {
+      res.status(400).json({"error":err.message});
+      return;
+    }
+    console.log("QUERY")
+    res.json({
+        "message":"success",
+        "data":rows
+    })
+  });
+}
+
+    export {getUsers,createUser,getLoginUser}

@@ -1,7 +1,7 @@
 import sqlite3 from 'sqlite3'
 import md5 from 'md5'
 
-const DBSOURCE = './database/main.db'
+const DBSOURCE = './database/main.sqlite'
 
 let db = new sqlite3.Database(DBSOURCE, (err) => {
     if (err) {
