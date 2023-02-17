@@ -16,7 +16,12 @@ const getUser = (req) => {
     return `SELECT * FROM users WHERE name="${name}" AND password="${md5(password)}"`
 }
 
-export  {getAllUsers,createNewUser,getUser}
+const updateImage = (req) => {
+    const {image,name} = req
+    return `UPDATE users SET avatar="${image}" WHERE name="${name}"`
+}
+
+export  {getAllUsers,createNewUser,getUser,updateImage,getUser}
 
 
 

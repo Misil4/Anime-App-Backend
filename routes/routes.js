@@ -3,7 +3,7 @@ import { searchAnime } from "../controller/AnimeSearch.js";
 import { getlatestAnimeAdded } from "../controller/SeasonalAnime.js";
 import { getAnimeEpisodes,getAnimeLink, getDowloadLink } from "../controller/AllAnime.js";
 import getAnimeNews from "../controller/AnimeNews.js";
-import { getUsers,createUser, getLoginUser } from "../controller/userController.js";
+import { getUsers,createUser, getLoginUser, updateAvatar } from "../controller/userController.js";
 const router = express.Router()
 
 
@@ -26,5 +26,6 @@ router.post("/create",createUser)
 
 router.post("/login",getLoginUser)
 
+router.post("/avatar",updateAvatar)
 
 export default router
