@@ -21,7 +21,7 @@ const updateImage = (req) => {
     return `UPDATE users SET avatar="${image}" WHERE name="${name}"`
 }
 
-export  {getAllUsers,createNewUser,getUser,updateImage,getUser}
+export  {getAllUsers,createNewUser,getUser,updateImage}
 
 
 
