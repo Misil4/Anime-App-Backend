@@ -14,19 +14,6 @@ const getUsers = (req, res, next) => {
     })
   });
 }
-const getUser = (req, res, next) => {
-  var params = []
-  db.all(getAllUsers(), params, (err, rows) => {
-    if (err) {
-      res.status(400).json({ "error": err.message });
-      return;
-    }
-    console.log("QUERY")
-    res.json({
-      rows
-    })
-  });
-}
 
 const createUser = (req, res, next) => {
 
