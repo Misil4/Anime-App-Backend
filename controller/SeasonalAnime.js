@@ -1,5 +1,3 @@
-
-import puppeteer from "puppeteer";
 import chromium from "chrome-aws-lambda";
 import { urls } from "../assets/urls.js";
 import cheerio from "cheerio";
