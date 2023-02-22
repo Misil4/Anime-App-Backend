@@ -1,6 +1,5 @@
 import cheerio from "cheerio";
 import chromium from "chrome-aws-lambda";
-import path from 'path'
 import { urls } from "../assets/urls.js";
 
 export const getAnimeEpisodes = async (req, res) => {
