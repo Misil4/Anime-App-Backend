@@ -18,8 +18,7 @@ export const searchAnime = async (req,res) => {
 		'accept-encoding': 'gzip, deflate, br', 
 		'accept-language': 'en-US,en;q=0.9,en;q=0.8' 
 	}); 
-    await page.waitForTimeout((Math.floor(Math.random() * 12) + 5) * 1000) 
-    await page.goto(url);
+    await page.goto(url, { waitUntil: 'domcontentloaded' });
     const results = [];
     const data = await page.evaluate(() => document.querySelector('*').outerHTML);
     const $ = cheerio.load(data)
