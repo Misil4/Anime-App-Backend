@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon node index.js"
+    "start": "node index.js"
   },
   "type": "module",
   "author": "",
@@ -22,8 +22,5 @@
     "puppeteer": "^13.5.2",
     "puppeteer-page-proxy": "^1.3.0",
     "sqlite3": "^5.1.4"
-  },
-  "devDependencies": {
-    "nodemon": "2.0.20"
   }
 }
