@@ -14,6 +14,7 @@
     'libxcursor1',
     'libxdamage1',
     'libxfixes3',
+    'libxshmfence',
     'libxi6',
     'libxrandr2',
     'libxss1',
