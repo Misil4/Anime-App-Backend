@@ -39,10 +39,11 @@ export const getAnimeLink = async (req, res) => {
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36');
     await page.goto(url, { waitUntil: 'domcontentloaded' });
-    const attr = await page.$eval(".player", (el) =>
-    atob(el.getAttribute("data-key"))
+    const attr = await page.$eval("#videoLoading", (el) =>
+    el.getAttribute("data-video")
   );
-    res.send(attr)
+  console.log(attr)
+    res.send(atob(attr))
 }
 
 export const getDowloadLink = async (req, res) => {
