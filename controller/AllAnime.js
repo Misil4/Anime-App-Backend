@@ -28,7 +28,7 @@ export const getAnimeEpisodes = async (req, res) => {
 export const getAnimeLink = async (req, res) => {
     const anime = req.params.anime
     const episode = req.params.ep
-    const url = `${urls.watchUrl}${anime}/${episode}`
+    const url = `${urls.downloadUrl}${anime}-episodio-${episode}`
     const browser = await chromium.puppeteer.launch({
         args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
         defaultViewport: chromium.defaultViewport,
@@ -39,11 +39,10 @@ export const getAnimeLink = async (req, res) => {
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36');
     await page.goto(url, { waitUntil: 'domcontentloaded' });
-    const elementHandle = await page.$('.player_conte')
-    const frame = await elementHandle?.contentFrame();
-    const video = frame?.url()
-    await browser.close()
-    res.send(video);
+    const attr = await page.$eval("#videoLoading", (el) =>
+    atob(el.getAttribute("data-video"))
+  );
+    res.send(attr)
 }
 
 export const getDowloadLink = async (req, res) => {
