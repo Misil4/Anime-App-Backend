@@ -1,7 +1,7 @@
 FROM node:slim AS app
 
 # We don't need the standalone Chromium
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD false
 
 # Install Google Chrome Stable and fonts
 # Note: this installs the necessary libs to make the browser work with Puppeteer.
@@ -40,5 +40,4 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-EXPOSE 3002
 CMD [ "npm", "start" ]
