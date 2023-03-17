@@ -21,7 +21,7 @@ export const getAnimeLink = async (req, res) => {
     const episode = req.params.ep
     const url = `${urls.downloadUrl}${anime}-episodio-${episode}`
     const browser = await puppeteer.launch({
-        args: [ "--hide-scrollbars", "--disable-web-security"],
+        args: [ "--hide-scrollbars", "--disable-web-security", "--no-sandbox"],
         headless: true,
         ignoreHTTPSErrors: true,
     });
