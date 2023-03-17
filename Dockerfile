@@ -1,4 +1,4 @@
-FROM node:slim
+FROM node:16.8.0-alpine
 
 # We don't need the standalone Chromium
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
@@ -19,8 +19,8 @@ WORKDIR /usr/src/app
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
 COPY package*.json ./
-RUN apk add --update python3 make g++\
-   && rm -rf /var/cache/apk/*
+RUN npm install -g npm@7.24.0
+RUN apk add --update python3 make g++ && rm -rf /var/cache/apk/*
 RUN npm install
 # If you are building your code for production
 # RUN npm ci --only=production
