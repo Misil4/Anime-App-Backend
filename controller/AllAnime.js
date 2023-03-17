@@ -14,7 +14,6 @@ export const getAnimeEpisodes = async (req, res) => {
     const $ = cheerio.load(data.body)
      const info = {score : $('.col-lg-12.col-md-9').find('.chapterpic')['0'].children[3].children[0].data,portada : $('.heroarea').find('.heromain')['0'].children[1].children[0].attribs.src,estado : $(".butns").find("#btninfo")['0'].children[0].data,descripcion : $(".chapterdetails").find(".textComplete")['0'].children[0].data}
     const test = $('.allanimes').find('.col-item').each((index, value) => episodes.push({ enlace: value.children[1].attribs.href, imagen: value.children[1].children[1].children[1].children[1].attribs.src }))
-    await browser.close()
     res.send({info,episodes})
 }
 export const getAnimeLink = async (req, res) => {
@@ -33,6 +32,7 @@ export const getAnimeLink = async (req, res) => {
     el.getAttribute("data-video")
   );
   console.log(attr)
+  await browser.close()
     res.send(atob(attr))
 }
 
