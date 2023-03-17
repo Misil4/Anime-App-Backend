@@ -3,4 +3,4 @@ export const urls = {url: "https://jkanime.net/",
   searchUrl: "https://monoschinos2.com/buscar?q=",
   watchUrl: "https://monoschinos2.com/ver/",
   downloadUrl: "https://monoschinos2.com/ver/",
-newsUrl : "https://somoskudasai.com/"} 
+newsUrl : "https://ramenparados.com/category/noticias/anime/"} 
