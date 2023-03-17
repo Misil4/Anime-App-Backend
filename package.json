@@ -17,7 +17,6 @@
     "express": "^4.17.3",
     "humanoid-js": "^1.0.1",
     "md5": "^2.3.0",
-    "node-fetch": "^3.2.3",
     "puppeteer": "^10.4.0",
     "sqlite3": "^5.1.4"
   }
