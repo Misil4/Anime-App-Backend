@@ -1,5 +1,4 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
- import chromium from "chrome-aws-lambda";
  import { urls } from "../assets/urls.js";
  import cheerio from "cheerio";
 import Humanoid from "humanoid-js";

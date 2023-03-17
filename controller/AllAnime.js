@@ -1,5 +1,5 @@
 import cheerio from "cheerio";
-import chromium from "chrome-aws-lambda";
+import puppeteer  from "puppeteer";
 import Humanoid from 'humanoid-js';
 import { urls } from "../assets/urls.js";
 let humanoid = new Humanoid()
@@ -21,10 +21,8 @@ export const getAnimeLink = async (req, res) => {
     const anime = req.params.anime
     const episode = req.params.ep
     const url = `${urls.downloadUrl}${anime}-episodio-${episode}`
-    const browser = await chromium.puppeteer.launch({
-        args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
-        defaultViewport: chromium.defaultViewport,
-        executablePath: await chromium.executablePath,
+    const browser = await puppeteer.launch({
+        args: ["--hide-scrollbars", "--disable-web-security"],
         headless: true,
         ignoreHTTPSErrors: true,
     });
