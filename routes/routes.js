@@ -1,6 +1,6 @@
 import express from "express";
 import { searchAnime } from "../controller/AnimeSearch.js";
-import { getlatestAnimeAdded, getlatestSeriesAdded } from "../controller/SeasonalAnime.js";
+import { getcurrentSeriesAdded, getlatestAnimeAdded, getlatestSeriesAdded } from "../controller/SeasonalAnime.js";
 import { getAnimeEpisodes,getAnimeLink, getDowloadLink } from "../controller/AllAnime.js";
 import getAnimeNews from "../controller/AnimeNews.js";
 import { getUsers,createUser, getLoginUser, updateAvatar } from "../controller/userController.js";
@@ -11,6 +11,8 @@ const router = express.Router()
 router.get("/lastAnime",getlatestAnimeAdded)
 // Last Anime series
 router.get("/lastAnimeSeries",getlatestSeriesAdded)
+// Last Current series
+router.get("/lastCurrentSeries",getcurrentSeriesAdded)
 // Last Anime News
 router.get("/lastAnimeNews",getAnimeNews)
 // Get episode from anime name
