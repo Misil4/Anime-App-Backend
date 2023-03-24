@@ -16,7 +16,7 @@ router.get("/lastCurrentSeries",getcurrentSeriesAdded)
 // Last Anime News
 router.get("/lastAnimeNews",getAnimeNews)
 // Get episode from anime name
-router.get("/episodes/:anime",getAnimeEpisodes)
+router.get("/episodes/:anime/:page",getAnimeEpisodes)
 // Get anime info from anime name
 router.get("/search/:anime",searchAnime)
 // Get anime ep view link

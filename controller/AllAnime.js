@@ -7,14 +7,31 @@ export const getAnimeEpisodes = async (req, res) => {
     const anime = req.params.anime
     const sub = "sub-espanol"
     const url = `${urls.animeUrl}${anime}-${sub}`;
-    
+    const page = parseInt(req.params.page);
+    const limit = 20;
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+    const results = {};
     const episodes = [];
     // let info = {}
     const data = await humanoid.get(url)
     const $ = cheerio.load(data.body)
      const info = {score : $('.col-lg-12.col-md-9').find('.chapterpic')['0'].children[3].children[0].data,portada : $('.heroarea').find('.heromain')['0'].children[1].children[0].attribs.src,estado : $(".butns").find("#btninfo")['0'].children[0].data,descripcion : $(".chapterdetails").find(".textComplete")['0'].children[0].data}
     const test = $('.allanimes').find('.col-item').each((index, value) => episodes.push({ enlace: value.children[1].attribs.href, imagen: value.children[1].children[1].children[1].children[1].attribs.src }))
-    res.send({info,episodes})
+    if (endIndex < episodes.length) {
+      results.next = {
+        page: page + 1,
+        limit: limit
+      };
+    }
+ 
+    if (startIndex > 0) {
+      results.previous = {
+        page: page - 1,
+        limit: limit
+      };
+    }
+    res.send({info,episodes : episodes.slice(startIndex, endIndex)})
 }
 export const getAnimeLink = async (req, res) => {
     const anime = req.params.anime
