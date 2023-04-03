@@ -31,7 +31,7 @@ export const getAnimeEpisodes = async (req, res) => {
         limit: limit
       };
     }
-    res.send({info,episodes : episodes.slice(startIndex, endIndex)})
+    res.send({info,episodes : episodes.slice(startIndex, endIndex),pages : limit})
 }
 export const getAnimeLink = async (req, res) => {
     const anime = req.params.anime
