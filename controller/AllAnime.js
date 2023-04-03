@@ -8,9 +8,6 @@ export const getAnimeEpisodes = async (req, res) => {
     const sub = "sub-espanol"
     const url = `${urls.animeUrl}${anime}-${sub}`;
     const page = parseInt(req.params.page);
-    const limit = 20;
-    const startIndex = (page - 1) * limit;
-    const endIndex = page * limit;
     const results = {};
     const episodes = [];
     // let info = {}
@@ -18,6 +15,9 @@ export const getAnimeEpisodes = async (req, res) => {
     const $ = cheerio.load(data.body)
      const info = {score : $('.col-lg-12.col-md-9').find('.chapterpic')['0'].children[3].children[0].data,portada : $('.heroarea').find('.heromain')['0'].children[1].children[0].attribs.src,estado : $(".butns").find("#btninfo")['0'].children[0].data,descripcion : $(".chapterdetails").find(".textComplete")['0'].children[0].data}
     const test = $('.allanimes').find('.col-item').each((index, value) => episodes.push({ enlace: value.children[1].attribs.href, imagen: value.children[1].children[1].children[1].children[1].attribs.src }))
+    const limit = Math.round(episodes.length/20)
+    const startIndex = (page - 1) * 20;
+    const endIndex = page * 20;
     if (endIndex < episodes.length) {
       results.next = {
         page: page + 1,
