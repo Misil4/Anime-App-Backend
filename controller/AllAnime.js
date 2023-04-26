@@ -31,9 +31,9 @@ export const getAnimeEpisodes = async (req, res) => {
           value.children[1].children[1].children[1].children[1].attribs.src,
       })
     );
-  const limit = Math.round(episodes.length / 20);
-  const startIndex = (page - 1) * 20;
-  const endIndex = page * 20;
+  const limit = Math.round(episodes.length / 30);
+  const startIndex = (page - 1) * 30;
+  const endIndex = page * 30;
   if (endIndex < episodes.length) {
     results.next = {
       page: page + 1,

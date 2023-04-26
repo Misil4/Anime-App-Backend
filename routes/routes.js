@@ -4,32 +4,37 @@ import { getcurrentSeriesAdded, getlatestAnimeAdded, getlatestSeriesAdded } from
 import { getAnimeEpisodes,getAnimeLink, getDowloadLink } from "../controller/AllAnime.js";
 import getAnimeNews from "../controller/AnimeNews.js";
 import { getUsers,createUser, getLoginUser, updateAvatar } from "../controller/userController.js";
+import { createJWT, createNewJWT } from "../services/jwt.js";
+import { verifyJWT } from "../middleware/verifyJWT.js";
 const router = express.Router()
 
+{/* JWT */}
+router.post('/token/',createJWT)
+router.post('/refresh/',createNewJWT)
 
 // Last Animes
-router.get("/lastAnime",getlatestAnimeAdded)
+router.get("/lastAnime",verifyJWT,getlatestAnimeAdded)
 // Last Anime series
-router.get("/lastAnimeSeries",getlatestSeriesAdded)
+router.get("/lastAnimeSeries",verifyJWT,getlatestSeriesAdded)
 // Last Current series
-router.get("/lastCurrentSeries",getcurrentSeriesAdded)
+router.get("/lastCurrentSeries",verifyJWT,getcurrentSeriesAdded)
 // Last Anime News
-router.get("/lastAnimeNews",getAnimeNews)
+router.get("/lastAnimeNews",verifyJWT,getAnimeNews)
 // Get episode from anime name
-router.get("/episodes/:anime/:page",getAnimeEpisodes)
+router.get("/episodes/:anime/:page",verifyJWT,getAnimeEpisodes)
 // Get anime info from anime name
-router.get("/search/:anime",searchAnime)
+router.get("/search/:anime",verifyJWT,searchAnime)
 // Get anime ep view link
-router.get("/url/:anime/:ep",getAnimeLink)
+router.get("/url/:anime/:ep",verifyJWT,getAnimeLink)
 // Get anime dowload link
-router.get("/dowload/:anime/:ep",getDowloadLink)
+router.get("/dowload/:anime/:ep",verifyJWT,getDowloadLink)
 
-router.get("/users",getUsers)
+router.get("/users",verifyJWT,getUsers)
 
-router.post("/create",createUser)
+router.post("/create",verifyJWT,createUser)
 
-router.post("/login",getLoginUser)
+router.post("/login",verifyJWT,getLoginUser)
 
-router.post("/avatar",updateAvatar)
+router.post("/avatar",verifyJWT,updateAvatar)
 
 export default router

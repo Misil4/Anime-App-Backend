@@ -1,8 +1,9 @@
-import Express from "express";
+
 import http from 'http'
-import dotenv from 'dotenv'
+import Express from 'express'
+ import router from "./routes/routes.js";
+import * as dotenv from 'dotenv'
 dotenv.config()
-import router from "./routes/routes.js";
 const app = Express();
 const server = http.createServer(app)
 const port = process.env.PORT || 3002;
