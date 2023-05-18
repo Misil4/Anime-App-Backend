@@ -18,13 +18,22 @@ WORKDIR /usr/src/app
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
 COPY package*.json ./
-
 RUN npm install
 # If you are building your code for production
 # RUN npm ci --only=production
 
 # Bundle app source
 COPY . .
+
+ENV FIREBASE_PROJECT_ID=$FIREBASE_PROJECT_ID
+ENV FIREBASE_PRIVATE_KEY_ID=$FIREBASE_PRIVATE_KEY_ID
+ENV FIREBASE_PRIVATE_KEY=$FIREBASE_PRIVATE_KEY
+ENV FIREBASE_CLIENT_EMAIL=$FIREBASE_CLIENT_EMAIL
+ENV FIREBASE_CLIENT_ID=$FIREBASE_CLIENT_ID
+ENV SECRET_TOKEN=$SECRET_TOKEN
+ENV SECRET_TOKEN_REFRESH=$SECRET_TOKEN_REFRESH
+ENV EXPIRES_IN=$EXPIRES_IN
+ENV PORT=$PORT
 
 EXPOSE 3002
 CMD [ "npm", "start" ]

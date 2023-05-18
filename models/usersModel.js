@@ -5,7 +5,6 @@ const getAllUsers = () => {
 }
 
 const createNewUser = (req) => {
-    console.log(req)
     const {name,password,email} = req
 
     return `INSERT INTO users (name, password, email)VALUES ('${name}','${md5(password)}','${email}');`

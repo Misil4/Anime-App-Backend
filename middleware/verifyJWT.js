@@ -4,7 +4,6 @@ const require = createRequire(import.meta.url);
 
 export const verifyJWT = (req, res, next) => {
   const token = req.get("Authorization");
-    console.log(token)
   var path = require("path");
   if (!token) {
     res.send("Unauthorized");
