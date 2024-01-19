@@ -25,8 +25,7 @@ const generateRefreshToken = (email) => {
   return jsonwebtoken.sign({ email }, process.env.SECRET_TOKEN_REFRESH);
 };
 export const createJWT = async (req, res) => {
-  let token = req.body.token;
-  let email = req.body.email;
+  const {token,email} = req.body
   admin
     .auth()
     .verifyIdToken(token, true)

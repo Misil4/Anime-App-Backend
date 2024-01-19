@@ -1,7 +1,7 @@
 import express from "express";
 import { searchAnime } from "../controller/AnimeSearch.js";
 import { getcurrentSeriesAdded, getlatestAnimeAdded, getlatestSeriesAdded } from "../controller/SeasonalAnime.js";
-import { getAnimeEpisodes,getAnimeLink, getDowloadLink } from "../controller/AllAnime.js";
+import { getAnimeEpisodes,getAnimeLink, getDowloadLink,streamEpisode } from "../controller/AllAnime.js";
 import getAnimeNews from "../controller/AnimeNews.js";
 import { getUsers,createUser, getLoginUser, updateAvatar } from "../controller/userController.js";
 import { createJWT, createNewJWT } from "../services/jwt.js";
@@ -28,6 +28,8 @@ router.get("/search/:anime",verifyJWT,searchAnime)
 router.get("/url/:anime/:ep",verifyJWT,getAnimeLink)
 // Get anime dowload link
 router.get("/dowload/:anime/:ep",verifyJWT,getDowloadLink)
+
+router.get("/ver/:magnet",streamEpisode)
 
 router.get("/users",verifyJWT,getUsers)
 

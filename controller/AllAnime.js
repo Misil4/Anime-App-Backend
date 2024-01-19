@@ -1,7 +1,8 @@
 import cheerio from "cheerio";
-import puppeteer from "puppeteer";
+import { si } from 'nyaapi'
 import Humanoid from "humanoid-js";
 import { urls } from "../assets/urls.js";
+import torrentStream from 'torrent-stream'
 let humanoid = new Humanoid();
 export const getAnimeEpisodes = async (req, res) => {
   const anime = req.params.anime;
@@ -54,31 +55,23 @@ export const getAnimeEpisodes = async (req, res) => {
   });
 };
 export const getAnimeLink = async (req, res) => {
-  const anime = req.params.anime;
-  const episode = req.params.ep;
-  const url = `${urls.downloadUrl}${anime}-episodio-${episode}`;
-  const browser = await puppeteer.launch({
-    args: ["--hide-scrollbars", "--disable-web-security", "--no-sandbox"],
-    headless: true,
-    ignoreHTTPSErrors: true,
-  });
-  const page = await browser.newPage();
-  await page.setUserAgent(
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36"
-  );
-  await page.goto(url, { waitUntil: "domcontentloaded" });
-  const botones = await page.$$("#play-video");
-  const attrs = [];
-  for (let i = 0; i < botones.length; i++) {
-    const boton = botones[i];
-    await boton.click();
-    const attr = await page.$eval("#videoLoading", (el) =>
-      el.getAttribute("data-video")
-    );
-    attrs.push(atob(attr));
+  const episode = req.params.ep > 9 ? req.params.ep : "0" + req.params.ep
+  const anime = await si.search(`[Erai-raws] ${req.params.anime.charAt(0).toUpperCase() + req.params.anime.slice(1)} - ${episode} [1080p]`)
+  const expresionRegular = /\[Erai-raws\]\s+(.*?)-\s+(\d+)\s+\[1080p]/;
+  if (anime.length > 0) {
+    res.send(JSON.stringify(anime.filter(elemento => {
+      const coincidencias = elemento.name.match(expresionRegular);
+      if (coincidencias) {
+        const textoDesired = coincidencias[1].trim();
+        const episodioDesired = coincidencias[2].trim();
+        return textoDesired === req.params.anime.charAt(0).toUpperCase() + req.params.anime.slice(1) && episodioDesired === episode;
+      }
+      return false;
+    })))
   }
-  await browser.close();
-  res.send(attrs);
+  else {
+    res.status(400).send("no results found")
+  }
 };
 
 export const getDowloadLink = async (req, res) => {
@@ -91,8 +84,16 @@ export const getDowloadLink = async (req, res) => {
     item.attribs?.href.includes("mega")
   )
     ? $(".downbtns")["0"].children.find((item) =>
-        item.attribs?.href.includes("mega")
-      ).attribs.href
+      item.attribs?.href.includes("mega")
+    ).attribs.href
     : "0";
   res.send(test);
 };
+
+export const streamEpisode = async (req,res) => {
+  const magnet = req.params.magnet
+  const engine = torrentStream(magnet)
+
+  
+
+}
