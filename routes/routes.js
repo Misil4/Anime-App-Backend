@@ -1,42 +1,36 @@
 import express from "express";
 import { searchAnime } from "../controller/AnimeSearch.js";
 import { getcurrentSeriesAdded, getlatestAnimeAdded, getlatestSeriesAdded } from "../controller/SeasonalAnime.js";
-import { getAnimeEpisodes,getAnimeLink, getDowloadLink,streamEpisode } from "../controller/AllAnime.js";
+import { getAnimeEpisodes,getAnimeLink, getDowloadLink } from "../controller/AllAnime.js";
 import getAnimeNews from "../controller/AnimeNews.js";
 import { getUsers,createUser, getLoginUser, updateAvatar } from "../controller/userController.js";
-import { createJWT, createNewJWT } from "../services/jwt.js";
-import { verifyJWT } from "../middleware/verifyJWT.js";
 const router = express.Router()
 
 {/* JWT */}
-router.post('/token/',createJWT)
-router.post('/refresh/',createNewJWT)
 
 // Last Animes
-router.get("/lastAnime",verifyJWT,getlatestAnimeAdded)
+router.get("/lastAnime",getlatestAnimeAdded)
 // Last Anime series
-router.get("/lastAnimeSeries",verifyJWT,getlatestSeriesAdded)
+router.get("/lastAnimeSeries",getlatestSeriesAdded)
 // Last Current series
-router.get("/lastCurrentSeries",verifyJWT,getcurrentSeriesAdded)
+router.get("/lastCurrentSeries",getcurrentSeriesAdded)
 // Last Anime News
-router.get("/lastAnimeNews",verifyJWT,getAnimeNews)
+router.get("/lastAnimeNews",getAnimeNews)
 // Get episode from anime name
-router.get("/episodes/:anime/:page",verifyJWT,getAnimeEpisodes)
+router.get("/episodes/:anime/:page",getAnimeEpisodes)
 // Get anime info from anime name
-router.get("/search/:anime",verifyJWT,searchAnime)
+router.get("/search/:anime",searchAnime)
 // Get anime ep view link
-router.get("/url/:anime/:ep",verifyJWT,getAnimeLink)
+router.get("/url/:anime/:ep",getAnimeLink)
 // Get anime dowload link
-router.get("/dowload/:anime/:ep",verifyJWT,getDowloadLink)
+router.get("/dowload/:anime/:ep",getDowloadLink)
 
-router.get("/ver/:magnet",streamEpisode)
+router.get("/users",getUsers)
 
-router.get("/users",verifyJWT,getUsers)
+router.post("/create",createUser)
 
-router.post("/create",verifyJWT,createUser)
+router.post("/login",getLoginUser)
 
-router.post("/login",verifyJWT,getLoginUser)
-
-router.post("/avatar",verifyJWT,updateAvatar)
+router.post("/avatar",updateAvatar)
 
 export default router

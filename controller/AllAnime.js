@@ -2,7 +2,6 @@ import cheerio from "cheerio";
 import { si } from 'nyaapi'
 import Humanoid from "humanoid-js";
 import { urls } from "../assets/urls.js";
-import torrentStream from 'torrent-stream'
 let humanoid = new Humanoid();
 export const getAnimeEpisodes = async (req, res) => {
   const anime = req.params.anime;
@@ -15,11 +14,11 @@ export const getAnimeEpisodes = async (req, res) => {
   const data = await humanoid.get(url);
   const $ = cheerio.load(data.body);
   const info = {
-    score: $(".col-lg-12.col-md-9").find(".chapterpic")["0"].children[3]
-      .children[0].data,
+    // score: $(".col-lg-12.col-md-9").find(".chapterpic")["0"].children[3]
+    //   .children[0]?.data,
     portada:
       $(".heroarea").find(".heromain")["0"].children[1].children[0].attribs.src,
-    estado: $(".butns").find("#btninfo")["0"].children[0].data,
+    estado: $(".butns").find("#btninfo")["0"].children[0]?.data,
     descripcion:
       $(".chapterdetails").find(".textComplete")["0"].children[0].data,
   };
@@ -89,11 +88,3 @@ export const getDowloadLink = async (req, res) => {
     : "0";
   res.send(test);
 };
-
-export const streamEpisode = async (req,res) => {
-  const magnet = req.params.magnet
-  const engine = torrentStream(magnet)
-
-  
-
-}
