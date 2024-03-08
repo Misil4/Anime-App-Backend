@@ -55,18 +55,9 @@ export const getAnimeEpisodes = async (req, res) => {
 };
 export const getAnimeLink = async (req, res) => {
   const episode = req.params.ep > 9 ? req.params.ep : "0" + req.params.ep
-  const anime = await si.search(`[Erai-raws] ${req.params.anime.charAt(0).toUpperCase() + req.params.anime.slice(1)} - ${episode} [1080p]`)
-  const expresionRegular = /\[Erai-raws\]\s+(.*?)-\s+(\d+)\s+\[1080p]/;
+  const anime = await si.search(`${req.params.anime.charAt(0).toUpperCase() + req.params.anime.slice(1)} - ${episode} [1080p][ESP-ENG]`)
   if (anime.length > 0) {
-    res.send(JSON.stringify(anime.filter(elemento => {
-      const coincidencias = elemento.name.match(expresionRegular);
-      if (coincidencias) {
-        const textoDesired = coincidencias[1].trim();
-        const episodioDesired = coincidencias[2].trim();
-        return textoDesired === req.params.anime.charAt(0).toUpperCase() + req.params.anime.slice(1) && episodioDesired === episode;
-      }
-      return false;
-    })))
+    res.send(anime)
   }
   else {
     res.status(400).send("no results found")

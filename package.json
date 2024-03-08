@@ -26,8 +26,6 @@
     "nyaapi": "2.4.4",
     "puppeteer": "18.2.1",
     "range-parser": "^1.2.1",
-    "socket.io": "4.7.4",
-    "sqlite3": "^5.1.4",
-    "torrent-stream": "1.2.1"
+    "sqlite3": "^5.1.4"
   }
 }
